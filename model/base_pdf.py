@@ -14,7 +14,7 @@ class BasePDF(ABC):
         pass
 
     @abstractmethod
-    def validate(self):
+    def validate(self, required_fields):
         pass
 
     @abstractmethod

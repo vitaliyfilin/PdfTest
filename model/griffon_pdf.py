@@ -51,35 +51,17 @@ class GriffonPdf(BasePDF):
             'notes': re.search(self.notes_regex, self.pdf_text).group(1)}
         return extracted_data
 
-    def validate(self):
+    def validate(self, required_fields):
         with self:
             pdf_reader = self.pdf_reader
             pdf_text = self.pdf_text
             extracted_data = self.extract_data()
-            required_fields = {
-                "PN": self.pn_regex,
-                "SN": self.sn_regex,
-                "DESCRIPTION": self.description_regex,
-                "LOCATION": self.location_regex,
-                "RECEIVER#": self.receiver_regex,
-                "EXP": self.exp_date_regex,
-                "CERT": self.cert_source_regex,
-                "REC DATE": self.rec_date_regex,
-                "BATCH": self.batch_regex,
-                "TAGGED BY": self.tagged_by_regex,
-                "CONDITION": self.condition_regex,
-                "UOM": self.uom_regex,
-                "PO": self.po_regex,
-                "MFG": self.mfg_regex,
-                "DOM": self.dom_regex,
-                "LOT": self.lot_regex,
-                "Qty": self.qty_regex,
-                "NOTES": self.notes_regex
-            }
+
             PdfValidator.validate_num_pages(pdf_reader)
             PdfValidator.validate_required_fields(pdf_text, required_fields)
             PdfValidator.validate_extracted_data(extracted_data)
             PdfValidator.validate_images_quantity(pdf_reader, 3)
+
             PDFToCSVWriter(extracted_data)
 
             return True

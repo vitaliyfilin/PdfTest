@@ -31,7 +31,26 @@ class TestGriffonPdf(BaseTest):
         self.assertEqual(self.pdf.extract_data(), expected_data)
 
     def test_validate(self):
-        self.assertTrue(self.pdf.validate())
+        self.assertTrue(self.pdf.validate({
+                "PN": GriffonPdf.pn_regex,
+                "SN": GriffonPdf.sn_regex,
+                "DESCRIPTION": GriffonPdf.description_regex,
+                "LOCATION": GriffonPdf.location_regex,
+                "RECEIVER#": GriffonPdf.receiver_regex,
+                "EXP": GriffonPdf.exp_date_regex,
+                "CERT": GriffonPdf.cert_source_regex,
+                "REC DATE": GriffonPdf.rec_date_regex,
+                "BATCH": GriffonPdf.batch_regex,
+                "TAGGED BY": GriffonPdf.tagged_by_regex,
+                "CONDITION": GriffonPdf.condition_regex,
+                "UOM": GriffonPdf.uom_regex,
+                "PO": GriffonPdf.po_regex,
+                "MFG": GriffonPdf.mfg_regex,
+                "DOM": GriffonPdf.dom_regex,
+                "LOT": GriffonPdf.lot_regex,
+                "Qty": GriffonPdf.qty_regex,
+                "NOTES": GriffonPdf.notes_regex
+            }))
 
 
 if __name__ == '__main__':
