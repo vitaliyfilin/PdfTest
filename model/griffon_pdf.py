@@ -1,6 +1,7 @@
 import re
 from model.base_pdf import BasePDF
 from util.pdf_validator_helper import PdfValidator
+from util.write_to_csv import PDFToCSVWriter
 
 
 class GriffonPdf(BasePDF):
@@ -79,6 +80,7 @@ class GriffonPdf(BasePDF):
             PdfValidator.validate_required_fields(pdf_text, required_fields)
             PdfValidator.validate_extracted_data(extracted_data)
             PdfValidator.validate_images_quantity(pdf_reader, 3)
+            PDFToCSVWriter(extracted_data)
 
             return True
 
