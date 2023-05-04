@@ -23,7 +23,7 @@ class GriffonPdf(BasePDF):
     lot_regex = r'LOT# : (.+?)\n'
     remark_regex = r'REMARK:\s*(?P<REMARK>[^L\n]*)(?=LOT.*|\n)'
     qty_regex = r'Qty:\s*(\d+).*?(?:(?!NOTES).)*\n'
-    notes_regex = r'NOTES:\s*(.*?(?:\n|$))'
+    notes_regex = r'NOTES:\s*((?:(?!GRIFFON AVIATION SERVICES LLC).)*?(?:\n|$))'
 
     def __init__(self, pdf_file):
         super().__init__(pdf_file)
