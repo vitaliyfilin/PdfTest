@@ -1,8 +1,12 @@
+import configparser
 import unittest
 
 
 class BaseTest(unittest.TestCase):
-    default_path = r'D:\JetBrains\PycharmProjects\PdfTest\data\input\test_task.pdf'
+    config = configparser.ConfigParser()
+    config.read(r'D:\JetBrains\PycharmProjects\PdfTest\config.ini')
+
+    default_path = config.get('pdf', 'default_path')
 
     def __init__(self, method_name='runTest', pdf_class=None, pdf_file=default_path):
         super().__init__(methodName=method_name)
