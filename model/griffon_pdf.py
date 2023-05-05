@@ -62,12 +62,3 @@ class GriffonPdf(BasePDF):
             PdfValidator.validate_images_quantity(pdf_reader, 3)
 
             return True
-
-    def __enter__(self):
-        for page in self.pdf_reader.pages:
-            self.pdf_text += page.extract_text()
-        return self
-
-    def __exit__(self, exc_type, exc_val, exc_tb):
-        if self.pdf_reader is not None:
-            self.pdf_reader.stream.close()
