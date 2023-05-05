@@ -2,6 +2,7 @@ from model.griffon_pdf import GriffonPdf
 
 
 class GriffonPdfWithAlternativeExtract(GriffonPdf):
+    # Добавлен в качестве примера другого возможного подхода
     def extract_data(self):
         values = {}
         lines = self.pdf_text.split('\n')
