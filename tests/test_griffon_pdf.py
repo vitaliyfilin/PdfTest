@@ -1,5 +1,3 @@
-import unittest
-
 from model.griffon_pdf import GriffonPdf
 from tests.base_test import BaseTest
 from util.write_to_csv import PDFToCSVWriter
