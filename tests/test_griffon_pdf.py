@@ -2,6 +2,7 @@ import unittest
 
 from model.griffon_pdf import GriffonPdf
 from tests.base_test import BaseTest
+from util.write_to_csv import PDFToCSVWriter
 
 
 class TestGriffonPdf(BaseTest):
@@ -51,6 +52,9 @@ class TestGriffonPdf(BaseTest):
                 "Qty": GriffonPdf.qty_regex,
                 "NOTES": GriffonPdf.notes_regex
             }))
+
+    def tearDown(self):
+        PDFToCSVWriter(self.pdf.extract_data())
 
 
 if __name__ == '__main__':
