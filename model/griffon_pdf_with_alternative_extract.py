@@ -58,15 +58,3 @@ class GriffonPdfWithAlternativeExtract(GriffonPdf):
                 pn_end = line.find('NOTES:')
                 values['Qty'] = line[pn_start:pn_end].strip()
         return values
-
-    def __init__(self, pdf_file):
-        super().__init__(pdf_file)
-
-    def __enter__(self):
-        for page in self.pdf_reader.pages:
-            self.pdf_text += page.extract_text()
-        return self
-
-    def __exit__(self, exc_type, exc_val, exc_tb):
-        if self.pdf_reader is not None:
-            self.pdf_reader.stream.close()
