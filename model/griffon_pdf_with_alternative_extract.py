@@ -4,6 +4,7 @@ from model.griffon_pdf import GriffonPdf
 class GriffonPdfWithAlternativeExtract(GriffonPdf):
     # Добавлен в качестве примера другого возможного подхода
     def extract_data(self):
+        labels = {'SN:', 'DESCRIPTION:', 'MFG', 'DOM', 'LOT'}
         values = {}
         lines = self.pdf_text.split('\n')
         for line in lines:
@@ -13,9 +14,12 @@ class GriffonPdfWithAlternativeExtract(GriffonPdf):
                 pn_start = line.find('PN:') + len('PN:')
                 pn_end = line.find('SN:') - 1
                 values['PN'] = line[pn_start:pn_end].strip()
-            elif 'SN:' in line:
-                values['SN'] = line.split(':')[-1].strip()
-            elif 'DESCRIPTION:' in line:
+            else:
+                for label in labels:
+                    if label in line:
+                        values[label] = line.split(':')[-1].strip()
+                        break
+            if 'DESCRIPTION:' in line:
                 values['DESCRIPTION'] = line.split(':')[-1].strip()
             elif 'LOCATION:' in line:
                 values['LOCATION'] = line.split(' ')[1]
