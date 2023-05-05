@@ -57,50 +57,6 @@ class GriffonPdf(BasePDF):
             pdf_text = self.pdf_text
             extracted_data = self.extract_data()
 
-            labels = {'SN:', 'DESCRIPTION:', 'MFG', 'DOM', 'LOT# :', 'CERT SOURCE'}
-            keys = {'LOCATION': 1, 'CONDITION': 3, 'RECEIVER#': 1, 'UOM': 3, 'BATCH#': 2, 'DOM': 4}
-            values = {}
-            lines = self.pdf_text.split('\n')
-            for line in lines:
-                for key, index in keys.items():
-                    if key in line:
-                        values[key] = line.split(' ')[index]
-                if 'GRIFFON AVIATION SERVICES LLC' in line:
-                    values['COMPANY'] = line.strip()
-                elif 'PN:' in line:
-                    pn_start = line.find('PN:') + len('PN:')
-                    pn_end = line.find('SN:') - 1
-                    values['PN'] = line[pn_start:pn_end].strip()
-                else:
-                    for label in labels:
-                        if label in line:
-                            values[label] = line.split(':')[-1].strip()
-                            break
-                if 'EXP DATE:' in line:
-                    pn_start = line.find('EXP DATE:') + len('EXP DATE:')
-                    pn_end = line.find('PO:') - 1
-                    values['EXP DATE'] = line[pn_start:pn_end].strip()
-                    values['PO'] = line.split(' ')[4]
-                elif 'REC.DATE:' in line:
-                    pn_start = line.find('REC.DATE:') + len('REC.DATE:')
-                    pn_end = line.find('MFG:') - 1
-                    values['REC.DATE'] = line[pn_start:pn_end].strip()
-                elif 'REMARK:' in line:
-                    pn_start = line.find('REMARK:') + len('REMARK:')
-                    pn_end = line.find('LOT# :') - 1
-                    values['REMARK'] = line[pn_start:pn_end].strip()
-                elif 'TAGGED BY:' in line:
-                    values['TAGGED BY:'] = line.split(' ')[2]
-                elif 'NOTES:' in line:
-                    if 'Qty:' in line:
-                        values['NOTES'] = ''
-                    else:
-                        values['NOTES'] = line[line.find('NOTES:'):]
-                elif 'Qty:' in line:
-                    pn_start = line.find('Qty:') + len('Qty:')
-                    pn_end = line.find('NOTES:')
-                    values['Qty'] = line[pn_start:pn_end].strip()
-
             PdfValidator.validate_num_pages(pdf_reader)
             PdfValidator.validate_required_fields(pdf_text, required_fields)
             PdfValidator.validate_extracted_data(extracted_data)
