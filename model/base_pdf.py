@@ -16,12 +16,3 @@ class BasePDF(ABC):
     @abstractmethod
     def validate(self, required_fields):
         pass
-
-    def __enter__(self):
-        for page in self.pdf_reader.pages:
-            self.pdf_text += page.extract_text()
-        return self
-
-    def __exit__(self, exc_type, exc_val, exc_tb):
-        if self.pdf_reader is not None:
-            self.pdf_reader.stream.close()
