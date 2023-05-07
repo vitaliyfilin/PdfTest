@@ -25,9 +25,6 @@ class GriffonPdf(BasePDF):
     exp_date_regex = r'EXP DATE: (\d{2}\.\d{2}\.\d{4})(?=.*?\sPO\b)'
     notes_regex = r'NOTES:\s*((?:(?!GRIFFON AVIATION SERVICES LLC).)*?(?:\n|$))'
 
-    def __init__(self, pdf_file):
-        super().__init__(pdf_file)
-
     def extract_data(self):
         extracted_data = {
             'pn': re.search(self.pn_regex, self.pdf_text).group(1),
@@ -52,14 +49,14 @@ class GriffonPdf(BasePDF):
         return extracted_data
 
     def validate(self, required_fields):
-        with self:
-            pdf_reader = self.pdf_reader
-            pdf_text = self.pdf_text
-            extracted_data = self.extract_data()
+        pdf_reader = self.pdf_reader
+        pdf_text = self.pdf_text
+        extracted_data = self.extract_data()
 
-            PdfValidator.validate_num_pages(pdf_reader)
-            PdfValidator.validate_required_fields(pdf_text, required_fields)
-            PdfValidator.validate_extracted_data(extracted_data)
-            PdfValidator.validate_images_quantity(pdf_reader, 3)
+        PdfValidator.validate_num_pages(pdf_reader)
+        PdfValidator.validate_required_fields(pdf_text, required_fields)
+        PdfValidator.validate_extracted_data(extracted_data)
+        PdfValidator.validate_images_quantity(pdf_reader, 3)
 
-            return True
+        return True
+
